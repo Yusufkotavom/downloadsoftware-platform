@@ -1,0 +1,231 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import proprietaryData from '../../data/proprietary.json';
+import projectsData from '../../data/projects.json';
+
+export function getStaticPaths() {
+  return proprietaryData.map((item) => ({
+    params: { brand: item.id },
+    props: { brandData: item },
+  }));
+}
+
+const { brand } = Astro.params;
+const { brandData } = Astro.props;
+
+// Filter projects that are alternatives to this brand
+const alternatives = projectsData.filter((p) => p.alternative_to.includes(brand));
+---
+
+<Layout
+  title={`${alternatives.length} Best Open Source Alternatives to ${brandData.name} (2026)`}
+  description={`Looking for an open-source alternative to ${brandData.name}? Discover ${alternatives.length} privacy-first, self-hostable alternatives with GitHub stats, feature comparisons, and download links.`}
+>
+  <!-- SEO Breadcrumb -->
+  <div class="bg-white border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      <nav class="flex items-center gap-2 text-xs text-slate-500 font-medium">
+        <a href="/" class="hover:text-blue-600">Home</a>
+        <span>/</span>
+        <a href="/alternatives-to" class="hover:text-blue-600">Alternatives</a>
+        <span>/</span>
+        <span class="text-slate-900 font-semibold">{brandData.name}</span>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Hero Header for Brand -->
+  <section class="bg-white border-b border-slate-200 py-12 md:py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div class="flex items-center gap-5">
+          <img
+            src={brandData.logo}
+            alt={brandData.name}
+            class="w-16 h-16 rounded-2xl object-contain bg-slate-50 border border-slate-200 p-2 shadow-sm"
+          />
+          <div>
+            <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold mb-2">
+              <span>{brandData.category}</span>
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+              {alternatives.length} Open Source Alternatives to {brandData.name}
+            </h1>
+            <p class="mt-2 text-slate-600 text-base max-w-2xl leading-relaxed">
+              {brandData.tagline}. Replace {brandData.name} with free, transparent, and community-driven self-hostable software.
+            </p>
+          </div>
+        </div>
+
+        <a
+          href={brandData.website}
+          target="_blank"
+          rel="noreferrer"
+          class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors w-full md:w-auto self-start md:self-center"
+        >
+          <span>Official {brandData.name} Site</span>
+          <span>↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deep Dive Stack -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="space-y-12">
+      {alternatives.map((project, idx) => (
+        <article class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 hover:border-blue-400 transition-all shadow-sm">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Left Info Column -->
+            <div class="lg:col-span-7">
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex items-center gap-4">
+                  <span class="w-8 h-8 rounded-full bg-slate-900 text-white font-extrabold flex items-center justify-center text-sm">
+                    #{idx + 1}
+                  </span>
+                  <img
+                    src={project.logo}
+                    alt={project.name}
+                    class="w-12 h-12 rounded-xl object-contain bg-slate-50 border border-slate-100 p-1"
+                  />
+                  <div>
+                    <h2 class="text-2xl font-extrabold text-slate-900 hover:text-blue-600">
+                      <a href={`/project/${project.id}`}>{project.name}</a>
+                    </h2>
+                    <span class="text-xs text-slate-500 font-medium">{project.category}</span>
+                  </div>
+                </div>
+
+                <a
+                  href={`https://github.com/${project.github_repo}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold"
+                >
+                  <span>★</span>
+                  <span>{project.stars.toLocaleString()} Stars</span>
+                </a>
+              </div>
+
+              <!-- Tagline & Description -->
+              <p class="mt-4 text-base font-semibold text-slate-800">
+                {project.tagline}
+              </p>
+              <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                {project.description}
+              </p>
+
+              <!-- Features List -->
+              <div class="mt-6">
+                <h4 class="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">Key Open Source Features:</h4>
+                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-slate-700">
+                  {project.features.map((feat) => (
+                    <li class="flex items-center gap-2">
+                      <span class="text-emerald-500 font-bold">✓</span>
+                      <span>{feat}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <!-- Badges & Action Buttons -->
+              <div class="mt-8 pt-6 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex flex-wrap items-center gap-2 text-xs">
+                  <span class="px-2.5 py-1 rounded bg-slate-100 text-slate-700 font-mono font-medium">
+                    License: {project.license}
+                  </span>
+                  <span class="px-2.5 py-1 rounded bg-blue-50 text-blue-700 font-medium">
+                    Stack: {project.languages.join(", ")}
+                  </span>
+                </div>
+
+                <div class="flex items-center gap-3">
+                  <a
+                    href={`/project/${project.id}`}
+                    class="px-4 py-2 rounded-xl bg-slate-100 text-slate-800 text-xs font-bold hover:bg-slate-200 transition-colors"
+                  >
+                    View Specs
+                  </a>
+                  <a
+                    href={project.website}
+                    target="_blank"
+                    rel="noreferrer"
+                    class="px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-bold hover:bg-blue-700 shadow-sm transition-colors flex items-center gap-1.5"
+                  >
+                    <span>Visit Project</span>
+                    <span>↗</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Telemetry & Screenshot Column -->
+            <div class="lg:col-span-5 bg-slate-50 rounded-2xl border border-slate-200/80 p-5 flex flex-col justify-between h-full">
+              <div>
+                <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">
+                  Repository Telemetry
+                </h4>
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                  <div class="bg-white p-3 rounded-xl border border-slate-200">
+                    <span class="text-[11px] text-slate-500 block">GitHub Stars</span>
+                    <span class="text-lg font-extrabold text-slate-900">{project.stars.toLocaleString()}</span>
+                  </div>
+                  <div class="bg-white p-3 rounded-xl border border-slate-200">
+                    <span class="text-[11px] text-slate-500 block">Forks</span>
+                    <span class="text-lg font-extrabold text-slate-900">{project.forks.toLocaleString()}</span>
+                  </div>
+                </div>
+
+                <div class="bg-white p-3 rounded-xl border border-slate-200 mb-4">
+                  <span class="text-[11px] text-slate-500 block">Repository</span>
+                  <a
+                    href={`https://github.com/${project.github_repo}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    class="text-xs font-bold text-blue-600 truncate block hover:underline"
+                  >
+                    github.com/{project.github_repo}
+                  </a>
+                </div>
+              </div>
+
+              <!-- Screenshot Card Preview -->
+              <div class="mt-2 rounded-xl overflow-hidden border border-slate-200 bg-white aspect-video flex items-center justify-center p-2">
+                <img
+                  src={project.screenshot}
+                  alt={`${project.name} UI screenshot`}
+                  class="w-full h-full object-cover rounded-lg"
+                  loading="lazy"
+                  onerror="this.src='/favicon.svg'"
+                />
+              </div>
+            </div>
+
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Other Brands Carousel -->
+  <section class="bg-white border-t border-slate-200 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h3 class="text-xl font-extrabold text-slate-900 mb-6">
+        Explore Alternatives for Other Tools:
+      </h3>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+        {proprietaryData.filter(p => p.id !== brand).map(p => (
+          <a
+            href={`/alternativesto/${p.id}`}
+            class="p-4 rounded-xl border border-slate-200 hover:border-blue-400 hover:shadow-sm text-center transition-all bg-slate-50/50 hover:bg-white"
+          >
+            <img src={p.logo} alt={p.name} class="w-8 h-8 rounded-lg object-contain mx-auto mb-2" />
+            <span class="text-xs font-bold text-slate-800 block truncate">{p.name}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,212 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import projectsData from '../../data/projects.json';
+import proprietaryData from '../../data/proprietary.json';
+
+export function getStaticPaths() {
+  return projectsData.map((project) => ({
+    params: { id: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+
+// Find proprietary targets
+const replacedTools = proprietaryData.filter((p) => project.alternative_to.includes(p.id));
+
+// Find similar projects in same category
+const similarProjects = projectsData.filter((p) => p.id !== project.id && p.category === project.category);
+---
+
+<Layout
+  title={`${project.name} — Open Source Alternative to ${replacedTools.map(t => t.name).join(", ")}`}
+  description={project.description}
+>
+  <!-- SEO Breadcrumb -->
+  <div class="bg-white border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      <nav class="flex items-center gap-2 text-xs text-slate-500 font-medium">
+        <a href="/" class="hover:text-blue-600">Home</a>
+        <span>/</span>
+        <span>Projects</span>
+        <span>/</span>
+        <span class="text-slate-900 font-semibold">{project.name}</span>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Hero Header -->
+  <section class="bg-white border-b border-slate-200 py-12 md:py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-start justify-between gap-8">
+        <div class="flex items-start gap-6">
+          <img
+            src={project.logo}
+            alt={project.name}
+            class="w-20 h-20 rounded-2xl object-contain bg-slate-50 border border-slate-200 p-2 shadow-sm"
+          />
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold">
+                {project.category}
+              </span>
+              <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 text-xs font-mono font-medium">
+                {project.license}
+              </span>
+            </div>
+
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+              {project.name}
+            </h1>
+            <p class="mt-2 text-base text-slate-600 max-w-2xl leading-relaxed">
+              {project.tagline}
+            </p>
+
+            <!-- Replaced Brands Banner -->
+            <div class="mt-4 flex flex-wrap items-center gap-2">
+              <span class="text-xs font-medium text-slate-400">Open-source alternative to:</span>
+              {replacedTools.map((brand) => (
+                <a
+                  href={`/alternativesto/${brand.id}`}
+                  class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-100 hover:bg-blue-50 text-slate-800 hover:text-blue-700 border border-slate-200 text-xs font-bold transition-colors"
+                >
+                  <img src={brand.logo} alt={brand.name} class="w-3.5 h-3.5 object-contain" />
+                  <span>{brand.name}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row md:flex-col gap-3 w-full md:w-auto">
+          <a
+            href={project.website}
+            target="_blank"
+            rel="noreferrer"
+            class="px-6 py-3 rounded-xl bg-blue-600 text-white font-bold text-sm text-center hover:bg-blue-700 shadow-sm transition-all"
+          >
+            Visit Official Website ↗
+          </a>
+          <a
+            href={`https://github.com/${project.github_repo}`}
+            target="_blank"
+            rel="noreferrer"
+            class="px-6 py-3 rounded-xl bg-slate-900 text-white font-bold text-sm text-center hover:bg-slate-800 shadow-sm transition-all flex items-center justify-center gap-2"
+          >
+            <span>GitHub Repository</span>
+            <span>★ {project.stars.toLocaleString()}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technical Telemetry & Specifications -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- Main Content & Features -->
+      <div class="lg:col-span-2 space-y-8">
+        <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8">
+          <h2 class="text-xl font-extrabold text-slate-900 mb-4">About {project.name}</h2>
+          <p class="text-slate-600 leading-relaxed text-base">
+            {project.description}
+          </p>
+
+          <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider mt-8 mb-4">Core Functionalities:</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {project.features.map(f => (
+              <div class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-100">
+                <span class="text-emerald-500 font-bold mt-0.5">✓</span>
+                <span class="text-sm text-slate-700 font-medium">{f}</span>
+              </div>
+            ))}
+          </div>
+
+          <!-- Docker run snippet -->
+          <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider mt-8 mb-4">Quick Self-Host Command:</h3>
+          <div class="bg-slate-900 rounded-xl p-4 text-slate-200 font-mono text-xs overflow-x-auto">
+            <code># Deploy {project.name} with Docker<br/>docker run -d --name {project.id} -p 8080:80 {project.id}/latest</code>
+          </div>
+        </div>
+
+        <!-- UI Preview Screen -->
+        <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8">
+          <h2 class="text-xl font-extrabold text-slate-900 mb-4">User Interface Preview</h2>
+          <div class="rounded-2xl overflow-hidden border border-slate-200 bg-slate-100">
+            <img
+              src={project.screenshot}
+              alt={`${project.name} UI preview`}
+              class="w-full h-auto object-cover"
+              loading="lazy"
+              onerror="this.src='/favicon.svg'"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Specs Widget -->
+      <div class="space-y-6">
+        <div class="bg-white rounded-3xl border border-slate-200 p-6">
+          <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Project Telemetry</h3>
+          
+          <div class="space-y-4 text-sm">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+              <span class="text-slate-500">GitHub Stars</span>
+              <span class="font-bold text-slate-900">★ {project.stars.toLocaleString()}</span>
+            </div>
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+              <span class="text-slate-500">Forks</span>
+              <span class="font-bold text-slate-900">🍴 {project.forks.toLocaleString()}</span>
+            </div>
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+              <span class="text-slate-500">Software License</span>
+              <span class="font-bold text-slate-900">{project.license}</span>
+            </div>
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+              <span class="text-slate-500">Primary Languages</span>
+              <span class="font-bold text-slate-900">{project.languages.join(", ")}</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-slate-500">Category</span>
+              <span class="font-bold text-blue-600">{project.category}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Self-Hosted Benefit Callout -->
+        <div class="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-6 text-white shadow-md">
+          <h4 class="font-extrabold text-lg mb-2">Why Switch to Open Source?</h4>
+          <p class="text-xs text-blue-100 leading-relaxed mb-4">
+            Zero per-seat licensing fees, complete data ownership, no telemetry surveillance, and zero risk of unexpected price hikes.
+          </p>
+          <a
+            href="/"
+            class="inline-block text-xs font-bold text-blue-900 bg-white px-4 py-2 rounded-xl hover:bg-blue-50 transition-colors"
+          >
+            Explore More Alternatives →
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Similar Projects Grid -->
+  {similarProjects.length > 0 && (
+    <section class="bg-white border-t border-slate-200 py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h3 class="text-xl font-extrabold text-slate-900 mb-6">
+          Similar Projects in {project.category}:
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {similarProjects.slice(0, 3).map((item) => (
+            <ProjectCard project={item} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+</Layout>

@@ -1,0 +1,110 @@
+[
+  {
+    "id": "notion",
+    "name": "Notion",
+    "tagline": "All-in-one workspace for notes, docs, and project management",
+    "category": "Productivity & Notes",
+    "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://notion.so",
+    "website": "https://notion.so",
+    "description": "Notion is a popular proprietary collaboration platform for note-taking, task management, and databases."
+  },
+  {
+    "id": "airtable",
+    "name": "Airtable",
+    "tagline": "Low-code platform for building relational database workflows",
+    "category": "Database & Spreadsheets",
+    "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://airtable.com",
+    "website": "https://airtable.com",
+    "description": "Airtable is a cloud-based collaborative database and spreadsheet hybrid."
+  },
+  {
+    "id": "trello",
+    "name": "Trello",
+    "tagline": "Kanban-style visual task management and collaboration tool",
+    "category": "Project Management",
+    "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://trello.com",
+    "website": "https://trello.com",
+    "description": "Trello is a popular Kanban project management web application originally created by Fog Creek."
+  },
+  {
+    "id": "slack",
+    "name": "Slack",
+    "tagline": "Real-time team messaging and channel-based collaboration",
+    "category": "Team Communication",
+    "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://slack.com",
+    "website": "https://slack.com",
+    "description": "Slack is an enterprise messaging application designed for team communication and file sharing."
+  },
+  {
+    "id": "typeform",
+    "name": "Typeform",
+    "tagline": "Interactive conversational forms, surveys, and quizzes",
+    "category": "Forms & Surveys",
+    "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://typeform.com",
+    "website": "https://typeform.com",
+    "description": "Typeform specializes in dynamic online form building and user-friendly online surveys."
+  },
+  {
+    "id": "1password",
+    "name": "1Password",
+    "tagline": "Password management and secure credential storage",
+    "category": "Security & Passwords",
+    "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://1password.com",
+    "website": "https://1password.com",
+    "description": "1Password provides secure password storage, digital vaults, and enterprise access management."
+  },
+  {
+    "id": "zapier",
+    "name": "Zapier",
+    "tagline": "Workflow automation platform connecting web apps",
+    "category": "Automation & Integration",
+    "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://zapier.com",
+    "website": "https://zapier.com",
+    "description": "Zapier connects thousands of web apps to automate repetitive business processes."
+  },
+  {
+    "id": "jira",
+    "name": "Jira",
+    "tagline": "Agile issue tracking and software project management",
+    "category": "Developer Tools",
+    "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://atlassian.com",
+    "website": "https://www.atlassian.com/software/jira",
+    "description": "Jira is an enterprise software development and bug tracking system developed by Atlassian."
+  },
+  {
+    "id": "calendly",
+    "name": "Calendly",
+    "tagline": "Automated meeting scheduling and calendar booking platform",
+    "category": "Scheduling",
+    "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://calendly.com",
+    "website": "https://calendly.com",
+    "description": "Calendly eliminates email tag for scheduling meetings and appointments with clients."
+  },
+  {
+    "id": "docusign",
+    "name": "DocuSign",
+    "tagline": "Electronic signatures and digital agreement management",
+    "category": "Document Management",
+    "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://docusign.com",
+    "website": "https://docusign.com",
+    "description": "DocuSign is the world leader in electronic signature technology and digital contracts."
+  },
+  {
+    "id": "mailchimp",
+    "name": "Mailchimp",
+    "tagline": "Marketing automation and email newsletter platform",
+    "category": "Marketing & Email",
+    "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://mailchimp.com",
+    "website": "https://mailchimp.com",
+    "description": "Mailchimp is a marketing automation platform and email marketing service for businesses."
+  },
+  {
+    "id": "shopify",
+    "name": "Shopify",
+    "tagline": "Cloud e-commerce platform for online stores and POS systems",
+    "category": "E-Commerce",
+    "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://shopify.com",
+    "website": "https://shopify.com",
+    "description": "Shopify is an all-in-one commerce platform powering millions of businesses worldwide."
+  }
+]
